@@ -78,7 +78,7 @@ services:
       - /var/spool/gammu/inbox:/var/spool/gammu/inbox:ro
       - /home/pi/listener:/listener
     environment:
-      - CHECK_B=$CHECK_B
+      - CHECK_B=${CHECK_B}
     expose:
       - 8080
     depends_on:
