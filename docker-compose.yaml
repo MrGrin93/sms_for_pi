@@ -72,7 +72,7 @@ services:
 
   web:
     build: ./proj
-    command: bash -c "uvicorn main:app --host 0.0.0.0 -port 8080"
+    command: bash -c "uvicorn main:app --host 0.0.0.0 --port 8080"
     volumes:
       - ./proj:/usr/src/app
       - /var/spool/gammu/inbox:/var/spool/gammu/inbox:ro
