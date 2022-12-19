@@ -79,6 +79,7 @@ services:
       - /home/pi/listener:/listener
     environment:
       - CHECK_B=${CHECK_B}
+      - TRAEF_NAME=${TRAEF_NAME}
     expose:
       - 8080
     depends_on:
