@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, status
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse, RedirectResponse
@@ -15,8 +15,11 @@ app.mount("/static", StaticFiles(directory=f"{current_path}/static/css"), name="
 
 templates = Jinja2Templates(directory=f"{current_path}/templates")
 
+@app.get("/", response_class=RedirectResponse)
+def to_index():
+    return RedirectResponse(url="/index",status_code=status.HTTP_302_FOUND)
 
-@app.get('/', response_class=HTMLResponse)
+@app.get('/index', response_class=HTMLResponse)
 async def get_webpage(request: Request):  
     files = os.listdir(mypath)
     num_list =[]
@@ -35,7 +38,7 @@ async def get_webpage(request: Request):
     newlist = sorted(smss_list,reverse=True, key=lambda d: d['date'] )
     return templates.TemplateResponse("index.html", {"request": request,"smsss": newlist, "title": "All", "nums":num_list_uniq})
 
-@app.get('/{num}', response_class=HTMLResponse)
+@app.get('/index/{num}', response_class=HTMLResponse)
 async def get_webpage(request: Request, num:str):  
     files = os.listdir(mypath)
     num_list =[]
@@ -58,7 +61,6 @@ async def get_webpage(request: Request, num:str):
 @app.get("/check_balanse", response_class=RedirectResponse)
 def send_command():
     balan = os.getenv('CHECK_B')
-    traef_name = os.getenv('TRAEF_NAME')
     command = f"gammu-smsd-inject USSD {balan}"
     # Open the named pipe for writing
     pipe = os.open("/listener", os.O_WRONLY)
@@ -66,4 +68,4 @@ def send_command():
     os.write(pipe, command.encode())
     # Close the pipe
     os.close(pipe)
-    return RedirectResponse(f'https://{traef_name}/')
+    return RedirectResponse(url="/index",status_code=status.HTTP_302_FOUND)
