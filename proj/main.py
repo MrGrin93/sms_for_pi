@@ -61,7 +61,7 @@ async def get_webpage(request: Request, num:str):
 @app.get("/check_balanse", response_class=RedirectResponse)
 def send_command():
     balan = os.getenv('CHECK_B')
-    command = f"gammu-smsd-inject USSD '{balan}'"
+    command = f"gammu-smsd-inject USSD '{balan}#'"
     # Open the named pipe for writing
     pipe = os.open("/listener", os.O_WRONLY)
     # Write the command to the pipe
