@@ -52,7 +52,7 @@ async def get_webpage(request: Request, num:str):
             "text": open(mypath+file, "r").read(),
             "date": datetime.fromtimestamp(os.path.getctime(mypath+file)),
         }
-        for file in files if num == re.search(r'_\d\d_(.*)_\d*\.txt', file).group(1)
+        for file in files if num in re.search(r'_\d\d_(.*)_\d*\.txt', file).group(1)
     ]
     newlist = sorted(smss_list,reverse=True, key=lambda d: d['date'] )
     return templates.TemplateResponse("index.html", {"request": request,"smsss": newlist, "title": "All", "nums":num_list_uniq})
