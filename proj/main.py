@@ -30,7 +30,7 @@ async def get_webpage(request: Request):
     smss_list = [
         {
             "number": re.search(r'_\d\d_(.*)_\d*\.txt', file).group(1),
-            "text": ''.join([line[1:] for line in open(mypath+file, 'r') if line.startswith(';')][3:]),
+            "text": ''.join([line[1:] for line in open(mypath+file, 'r',encoding="utf-16-le") if line.startswith(';')][3:]),
             "date": datetime.fromtimestamp(os.path.getctime(mypath+file)),
         }
         for file in files
@@ -49,7 +49,7 @@ async def get_webpage(request: Request, num:str):
     smss_list = [
         {
             "number": re.search(r'_\d\d_(.*)_\d*\.txt', file).group(1),
-            "text": ''.join([line[1:] for line in open(mypath+file, 'r') if line.startswith(';')][3:]),
+            "text": ''.join([line[1:] for line in open(mypath+file, 'r',encoding="utf-16-le") if line.startswith(';')][3:]),
             "date": datetime.fromtimestamp(os.path.getctime(mypath+file)),
         }
         for file in files if num in re.search(r'_\d\d_(.*)_\d*\.txt', file).group(1)
