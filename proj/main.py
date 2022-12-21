@@ -3,8 +3,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse, RedirectResponse
 
-from datetime import datetime, timezone, timedelta
-import os, re, pytz
+import os, re, time
 
 
 current_path = os.path.dirname(os.path.abspath(__file__))
@@ -31,7 +30,7 @@ async def get_webpage(request: Request):
         {
             "number": re.search(r'_\d\d_(.*)_\d*\.txt', file).group(1),
             "text": open(mypath+file, "r").read(),
-            "date": datetime.fromtimestamp(os.path.getctime(mypath+file)).replace(tzinfo=pytz.timezone("Europe/Moscow")).strftime('%Y-%m-%d %H:%M:%S'),
+            "date":  time.ctime(os.path.getctime(mypath+file)),
         }
         for file in files
     ]
@@ -50,7 +49,7 @@ async def get_webpage(request: Request, num:str):
         {
             "number": re.search(r'_\d\d_(.*)_\d*\.txt', file).group(1),
             "text": open(mypath+file, "r").read(),
-            "date": datetime.fromtimestamp(os.path.getctime(mypath+file)).replace(tzinfo=pytz.timezone("Europe/Moscow")).strftime('%Y-%m-%d %H:%M:%S'),
+            "date":  time.ctime(os.path.getctime(mypath+file)),
         }
         for file in files if num in re.search(r'_\d\d_(.*)_\d*\.txt', file).group(1)
     ]
